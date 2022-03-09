@@ -10,7 +10,7 @@ public class TriggerSymptoms : MonoBehaviour
     [SerializeField] Symptom symptomType;
 
     [SerializeField] CameraShake cameraShake;
-
+    
     void OnTriggerEnter(Collider other)
     {
         switch(symptomType)
