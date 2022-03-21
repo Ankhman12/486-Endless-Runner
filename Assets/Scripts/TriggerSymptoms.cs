@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class TriggerSymptoms : MonoBehaviour
 {
-    public enum Symptom {Tremors, Fatigue, Vision};
+    public enum Symptom {Tremors, Vision};
 
     [SerializeField] Symptom symptomType;
 
