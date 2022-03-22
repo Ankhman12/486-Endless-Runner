@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [Header("Object References")]
     [SerializeField] private GameObject player;
     [SerializeField] private CameraShake cameraShake;
+    [SerializeField] private SymptomNumbness symptomNumbness;
 
     [Header("UI Objects")]
     [SerializeField] private TextMeshProUGUI distanceAmtText;
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour
                     cameraShake.StartShaking();
                     break;
                 case Symptom.Vision:
-                    //TODO add starter for vision function here
+                    symptomNumbness.StartNumbness();
                     break;
                 default:
                     break;
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
                     cameraShake.StopShaking();
                     break;
                 case Symptom.Vision:
-                    //TODO add stopper for vision function here
+                    symptomNumbness.StopNumbness();
                     break;
                 default:
                     break;

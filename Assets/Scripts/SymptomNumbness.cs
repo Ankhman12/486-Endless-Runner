@@ -15,7 +15,6 @@ public class SymptomNumbness : MonoBehaviour
 
     private Volume postProcessorVolume;
     private Image blackScreenImage;
-    private bool fading;
     private Coroutine fadeCoroutine;
 
     void Start()
@@ -25,35 +24,30 @@ public class SymptomNumbness : MonoBehaviour
         resetShading();
     }
 
-    void fadeToBlack()
+    IEnumerator fadeToBlack()
     {
-        if (postProcessorVolume.weight < finalVolumeWeight) {
-            // Increase the weight of the post processor
-            postProcessorVolume.weight += 0.00025f;
+        for (float alpha = initialVolumeWeight; alpha < finalVolumeWeight; alpha += 0.00025f)
+        {
+            // Increase the weight of the post processor volume
+            postProcessorVolume.weight = alpha;
             // Increase the alpha of the black screen
-            blackScreenImage.color = new Color(0, 0, 0, 0.00025f + blackScreenImage.color.a);
-        }
-        else {
-            fading = false;
+            blackScreenImage.color = new Color(0, 0, 0, alpha);
+            yield return null;
         }
     }
 
     void resetShading() 
     {
-        fading = false;
         postProcessorVolume.weight = initialVolumeWeight;
         blackScreenImage.color = new Color(0, 0, 0, initialOpacity);
     }
 
-    void Update() 
-    {   
-        // Check to see if the player is on a damaged tag
-        if (gameObject.CompareTag("Damaged")) {
-            // If the player is on a damaged tag and the post processor is not already fading, fade to black
-            if (!fading) {
-                fading = true;
-                fadeCoroutine = StartCoroutine("fadeToBlack");
-            }
-        }
+    public void StartNumbness() {
+        fadeCoroutine = StartCoroutine(fadeToBlack());
+    }
+
+    public void StopNumbness() {
+        StopCoroutine(fadeCoroutine);
+        resetShading();
     }
 }
