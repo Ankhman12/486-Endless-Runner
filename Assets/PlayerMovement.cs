@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PathCreation;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -29,8 +30,29 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject sparks;
     [SerializeField] ParticleSystem fizzleOut;
 
+    public PathCreator pathCreator;
+    public EndOfPathInstruction end;
+    float distTravelled;
+    PathCreator oldPath;
+
+    //private void Start()
+    //{
+    //    Collider[] hits = Physics.OverlapBox(playerObj.transform.position, new Vector3(10f, 10f, 10f), Quaternion.identity, groundLayer);
+    //    foreach (Collider c in hits) {
+    //        PathCreator newPath = c.gameObject.GetComponentInChildren<PathCreator>();
+    //        if (newPath != null && !newPath.Equals(pathCreator) && !newPath.Equals(oldPath))
+    //        {
+    //            Debug.Log("Bboooopp");
+    //            oldPath = pathCreator;
+    //            pathCreator = newPath;
+    //            distTravelled = 0f;
+    //        }
+    //    }
+    //}
     private void Update()
     {
+        //pathCreator = currentGround.GetComponentInChildren<PathCreator>();
+        
         //Allow Player to rotate
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -69,15 +91,34 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         //Move the player forward
-        Vector3 currPos = this.transform.position;
-        Vector3 newPos = currPos + (this.transform.forward * speed * Time.fixedDeltaTime);
-        this.transform.position = newPos;
+        //Vector3 currPos = this.transform.position;
+        //Vector3 newPos = currPos + (this.transform.forward * speed * Time.fixedDeltaTime);
+        //this.transform.position = newPos;
+        if (pathCreator != null)
+        {
+            distTravelled += speed * Time.deltaTime;
+            transform.position = pathCreator.path.GetPointAtDistance(distTravelled, end);
 
-        //Attract the rigidbody to the ground
-        gravity = new Vector3(rb.transform.position.x - currentGround.transform.position.x, rb.transform.position.y - currentGround.transform.position.y, 0f).normalized;
-        gravity *= gravForce;
-        rb.AddForce(gravity);
-
+            //Attract the rigidbody to the ground
+            gravity = new Vector3(rb.transform.position.x - pathCreator.path.GetPointAtDistance(distTravelled, end).x, rb.transform.position.y - pathCreator.path.GetPointAtDistance(distTravelled, end).y, 0f).normalized;
+            gravity *= gravForce;
+            rb.AddForce(gravity);
+        }
+        else {
+            Collider[] hits = Physics.OverlapSphere(playerObj.transform.position, 3f, groundLayer);
+            foreach (Collider c in hits)
+            {
+                PathCreator newPath = c.gameObject.GetComponentInChildren<PathCreator>();
+                //Debug.Log(newPath);
+                if (newPath != null && !newPath.Equals(pathCreator) && !newPath.Equals(oldPath))
+                {
+                    //Debug.Log("Bboooopp");
+                    oldPath = pathCreator;
+                    pathCreator = newPath;
+                    distTravelled = 0f;
+                }
+            }
+        }
         //Ground check
         RaycastHit hit;
         //Physics.Raycast(playerObj.transform.position, -playerObj.transform.up, out hit, 10f);
@@ -132,5 +173,21 @@ public class PlayerMovement : MonoBehaviour
         Instantiate(fizzleOut, this.transform);
         Destroy(this, .1f);
         return true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log(other.gameObject);
+        if (other.gameObject.layer == 6) //Ground layer is 6
+        {
+            Debug.Log("Boop");
+            PathCreator newPath = other.gameObject.GetComponentInChildren<PathCreator>();
+            if (newPath != null && !newPath.Equals(pathCreator) && !newPath.Equals(oldPath)) {
+                Debug.Log("Bboooopp");
+                oldPath = pathCreator;
+                pathCreator = newPath;
+                distTravelled = 0f;
+            }
+        } 
     }
 }

@@ -380,6 +380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4507418054924977490}
   - component: {fileID: 4507418054924977489}
+  - component: {fileID: 8579484786009946825}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -419,7 +420,7 @@ MonoBehaviour:
   speed: 5
   jumpForce: 15
   rb: {fileID: 4507418054382233178}
-  rotationAmount: {x: 0, y: 0, z: 0.5}
+  rotationAmount: {x: 0, y: 0, z: 1}
   coinsCollected: 0
   currentGround: {fileID: 0}
   gravForce: -7
@@ -433,6 +434,25 @@ MonoBehaviour:
   grounded: 0
   isHoldingJump: 0
   jumpTimer: 0
+  ball: {fileID: 2960249648708721000}
+  energy: {fileID: 2394849942828971149}
+  sparks: {fileID: 8518969989755971366}
+  fizzleOut: {fileID: 0}
+  pathCreator: {fileID: 0}
+  end: 2
+--- !u!65 &8579484786009946825
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4507418054924977488}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.16321993, y: 0.18296802, z: 0.12570381}
+  m_Center: {x: -0.014870629, y: 0.46803057, z: 0.069247246}
 --- !u!1 &8518969989755971366
 GameObject:
   m_ObjectHideFlags: 0
@@ -3115,7 +3135,7 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 6
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4491,7 +4511,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     widthOverTrail:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 1
       scalar: 0.1
       minScalar: 1
       maxCurve:
@@ -4499,6 +4519,15 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.19114932
           value: 1
           inSlope: 0
           outSlope: 0
@@ -4507,8 +4536,17 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
+          time: 0.8641671
+          value: 0.6525423
+          inSlope: -0.3434033
+          outSlope: -0.3434033
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 1
+        - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
