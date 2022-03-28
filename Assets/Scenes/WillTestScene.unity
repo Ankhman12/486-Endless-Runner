@@ -743,6 +743,8 @@ MonoBehaviour:
   energy: {fileID: 0}
   sparks: {fileID: 0}
   fizzleOut: {fileID: 0}
+  pathCreator: {fileID: 0}
+  end: 0
 --- !u!4 &560513078
 Transform:
   m_ObjectHideFlags: 0
