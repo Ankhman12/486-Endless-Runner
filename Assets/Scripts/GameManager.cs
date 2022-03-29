@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Adding random symptom: " + randomSymptom);
         // Add it to the list of active symptoms
         AddSymptom(randomSymptom);
+        SoundManager.Instance.PlaySound(SoundManager.Instance.symptomSound);
     }
 
     public void DamagePlayer()
@@ -174,12 +175,13 @@ public class GameManager : MonoBehaviour
                 player.GetComponent<PlayerMovement>().trail.SetActive(false);
                 break;
             case 0:
-                //Play death VFX
+                //Play death FX
+                SoundManager.Instance.PlaySound(SoundManager.Instance.deathSound);
+                player.GetComponent<PlayerMovement>().fizzleOut.Play();
                 player.GetComponent<PlayerMovement>().ball.SetActive(false);
                 player.GetComponent<PlayerMovement>().energy.SetActive(false);
-                player.GetComponent<PlayerMovement>().fizzleOut.Play();
                 //End Game
-                StopGame();
+                StartCoroutine(StopGame());
                 break;
         }
     }
@@ -209,11 +211,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void StopGame()
+    IEnumerator StopGame()
     {
         //Might need to make this a coroutine and do it after a certain amt of time if we want a death visual
+        yield return new WaitForSeconds(.5f);
+        
         Time.timeScale = 0;
         gameRunning = false;
         gameOverPanel.SetActive(true);
+        yield return null;
     }
 }

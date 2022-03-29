@@ -10,5 +10,6 @@ public class PickupMedicine : MonoBehaviour
         Destroy(this.gameObject);
         GameManager.Instance.RemoveSymptom(symptomType);
         GameManager.Instance.HealPlayer();
+        SoundManager.Instance.PlaySound(SoundManager.Instance.pickupSound);
     }
 }

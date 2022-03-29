@@ -75,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isHoldingJump = true;
             jumpTimer = 0f;
+            SoundManager.Instance.PlaySound(SoundManager.Instance.jumpSound);
         }
         if (Input.GetButtonUp("Jump") || jumpTimer >= maxJumpTime)
         {
@@ -144,31 +145,6 @@ public class PlayerMovement : MonoBehaviour
         if (isHoldingJump) {
             rb.AddForce(jumpForce * playerObj.transform.up);
         }
-    }
-
-    public int PlayerHit() 
-    {
-        health--;
-        switch (health) {
-            case 2:
-                sparks.SetActive(false);
-                break;
-            case 1:
-                ball.SetActive(false);
-                break;
-            default:
-                break;
-        }
-
-        return health;
-    }
-
-    public bool Fizzle() 
-    {
-        energy.SetActive(false);
-        Instantiate(fizzleOut, this.transform);
-        Destroy(this, .1f);
-        return true;
     }
 
     private void OnTriggerEnter(Collider other)
