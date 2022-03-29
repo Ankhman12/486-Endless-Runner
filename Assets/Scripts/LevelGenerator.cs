@@ -7,6 +7,7 @@ public class LevelGenerator : MonoBehaviour
     const float MIN_PLAYER_DIST = 100f;
     //[SerializeField] private Transform levelPart_Start;
     [SerializeField] private Vector3 startPos;
+    [SerializeField] private Transform startPart;
     [SerializeField] private Transform levelPart_1;
     [SerializeField] private Transform levelPart_2;
     [SerializeField] private Transform myelinD_1;
@@ -22,11 +23,12 @@ public class LevelGenerator : MonoBehaviour
     {
         //lastEndPosition = levelPart_Start.Find("EndPosition").position;
         lastEndPosition = startPos;
-
+        Instantiate(startPart, new Vector3(startPos.x, startPos.y, startPos.z - 6.66f), Quaternion.identity);
         for (int i = 0; i < 5; i++)
         {
             SpawnLevelPart();
         }
+
 
     }
 

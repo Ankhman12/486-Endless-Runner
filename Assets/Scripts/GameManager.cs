@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Object References")]
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject playerBody;
     [SerializeField] private CameraShake cameraShake;
 
     [Header("UI Objects")]
@@ -59,6 +60,9 @@ public class GameManager : MonoBehaviour
 
         //Initialize UI
         livesAmtText.text = playerLives.ToString();
+
+        //Hide player until play
+        playerBody.SetActive(false);
     }
 
     void Update()
@@ -68,6 +72,14 @@ public class GameManager : MonoBehaviour
 
         //Update UI
         distanceAmtText.text = string.Format("{0} μm", distanceTraveled.ToString("F1"));
+
+        if (gameRunning)
+        {
+            //Play electricity burst FX
+            //...
+            //Un-Hide Player
+            playerBody.SetActive(true);
+        }
     }
 
     public void AddSymptom(Symptom symptom)
