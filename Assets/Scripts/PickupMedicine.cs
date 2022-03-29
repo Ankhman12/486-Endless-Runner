@@ -9,5 +9,6 @@ public class PickupMedicine : MonoBehaviour
     {
         Destroy(this.gameObject);
         GameManager.Instance.RemoveSymptom(symptomType);
+        GameManager.Instance.HealPlayer();
     }
 }

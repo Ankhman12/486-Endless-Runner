@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
 
     /** Bool to tell if game is currently running - false to start because of menu */
     public bool gameRunning;
+    public float immunityTime;
+    private float immunityTimer;
+    private bool playerImmune;
 
     [Header("Object References")]
     [SerializeField] private GameObject player;
@@ -76,10 +79,23 @@ public class GameManager : MonoBehaviour
 
         if (gameRunning)
         {
-            //Play electricity burst FX
-            //...
-            //Un-Hide Player
-            playerBody.SetActive(true);
+            if (playerBody.activeInHierarchy == false)
+            {
+                
+                //Un-Hide Player
+                playerBody.SetActive(true);
+                //Play electricity burst FX
+                player.GetComponent<PlayerMovement>().fizzleOut.Play();
+
+            }
+            if (immunityTimer < immunityTime)
+            {
+                immunityTimer += Time.deltaTime;
+            }
+            else if (playerImmune) {
+                immunityTimer = 0f;
+                playerImmune = false;
+            }
         }
     }
 
@@ -124,6 +140,8 @@ public class GameManager : MonoBehaviour
 
     public void AddRandomSymptom() 
     {
+        if (playerImmune)
+            return;
         // Select a random symptom
         Symptom randomSymptom = (Symptom)Random.Range(0, 2);
         Debug.Log("Adding random symptom: " + randomSymptom);
@@ -133,6 +151,11 @@ public class GameManager : MonoBehaviour
 
     public void DamagePlayer()
     {
+        if (playerImmune)
+            return;
+        else
+            playerImmune = true;
+
         //Subtract life
         playerLives--;
 
@@ -143,16 +166,46 @@ public class GameManager : MonoBehaviour
         switch (playerLives)
         {
             case 2:
-                //TODO Stop external lightning effect 
+                // Stop external lightning effect
+                player.GetComponent<PlayerMovement>().sparks.SetActive(false);
                 break;
             case 1:
-                //TODO Stop internal electricity effect
+                // Stop internal electricity effect
+                player.GetComponent<PlayerMovement>().trail.SetActive(false);
                 break;
             case 0:
+                //Play death VFX
+                player.GetComponent<PlayerMovement>().ball.SetActive(false);
+                player.GetComponent<PlayerMovement>().energy.SetActive(false);
+                player.GetComponent<PlayerMovement>().fizzleOut.Play();
                 //End Game
-                //TODO - any visual effects here
                 StopGame();
                 break;
+        }
+    }
+
+    public void HealPlayer() {
+        if (playerLives < 3)
+        {
+            //Increment player lives
+            playerLives++;
+            //Update UI
+            livesAmtText.text = playerLives.ToString();
+
+            //Make visual effect changes
+            switch (playerLives)
+            {
+                case 3:
+                    //Activate external lightning effect
+                    player.GetComponent<PlayerMovement>().sparks.SetActive(true);
+                    break;
+                case 2:
+                    //Activate internal electricity effect
+                    player.GetComponent<PlayerMovement>().trail.SetActive(true);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

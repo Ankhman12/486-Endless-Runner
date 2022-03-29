@@ -8,12 +8,10 @@ public class LevelGenerator : MonoBehaviour
     //[SerializeField] private Transform levelPart_Start;
     [SerializeField] private Vector3 startPos;
     [SerializeField] private Transform startPart;
-    [SerializeField] private Transform levelPart_1;
-    [SerializeField] private Transform levelPart_2;
-    [SerializeField] private Transform myelinD_1;
-    [SerializeField] private Transform myelinH_1;
-    [SerializeField] private Transform myelinD_2;
-    [SerializeField] private Transform myelinH_2;
+    [SerializeField] private Transform levelPart_1D;
+    [SerializeField] private Transform levelPart_1H;
+    [SerializeField] private Transform levelPart_2D;
+    [SerializeField] private Transform levelPart_2H;
 
     [SerializeField] private PlayerMovement player;
 
@@ -47,32 +45,32 @@ public class LevelGenerator : MonoBehaviour
     private Transform SpawnLevelPart(Vector3 spawnPos)
     {
         Transform levelPartTransform = null;
-        Quaternion spawnRot = Quaternion.Euler(0f, 180f, Random.Range(0f, 360f));
-        int partToSpawn = Random.Range(1, 2); // make 1-3 later
-        int myelinToSpawn = Random.Range(1, 10);
+        Quaternion spawnRot; //= Quaternion.Euler(0f, 180f, Random.Range(0f, 360f));
+        int partToSpawn = Random.Range(1, 3); 
+        int myelinToSpawn = Random.Range(1, 11);
         switch (partToSpawn) {
             case 1:
                 spawnPos.z += 30;
-                levelPartTransform = Instantiate(levelPart_1, spawnPos, spawnRot);
+                spawnRot = Quaternion.Euler(0f, 180f, Random.Range(0f, 360f));
                 if (myelinToSpawn > 8)
                 {
-                    Instantiate(myelinD_1, spawnPos, spawnRot);
+                    levelPartTransform = Instantiate(levelPart_1D, spawnPos, spawnRot);
                 }
                 else 
                 {
-                    Instantiate(myelinH_1, spawnPos, spawnRot);
+                    levelPartTransform = Instantiate(levelPart_1H, spawnPos, spawnRot);
                 }
                     break;
             case 2:
                 spawnPos.z += 25;
-                levelPartTransform = Instantiate(levelPart_2, spawnPos, spawnRot);
+                spawnRot = Quaternion.Euler(0f, 180f, Random.Range(0f, 360f));
                 if (myelinToSpawn > 8)
                 {
-                    Instantiate(myelinD_2, spawnPos, spawnRot);
+                    levelPartTransform = Instantiate(levelPart_2D, spawnPos, spawnRot);
                 }
                 else
                 {
-                    Instantiate(myelinH_2, spawnPos, spawnRot);
+                    levelPartTransform = Instantiate(levelPart_2H, spawnPos, spawnRot);
                 }
                 break;
             case 3:

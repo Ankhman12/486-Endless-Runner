@@ -6,7 +6,10 @@ using PathCreation;
 public class PlayerMovement : MonoBehaviour
 {
     public GameObject playerObj;
-    public float speed;
+    private float speed;
+    public float acceleration;
+    public float topSpeed;
+    public float startSpeed;
     public float jumpForce;
     public Rigidbody rb;
     public Vector3 rotationAmount;
@@ -25,34 +28,27 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpTimer = 0f;
 
     int health = 3;
-    [SerializeField] GameObject ball;
-    [SerializeField] GameObject energy;
-    [SerializeField] GameObject sparks;
-    [SerializeField] ParticleSystem fizzleOut;
+    public GameObject ball;
+    public GameObject energy;
+    public GameObject sparks;
+    public GameObject trail;
+    public ParticleSystem fizzleOut;
 
     public PathCreator pathCreator;
     public EndOfPathInstruction end;
     float distTravelled;
     PathCreator oldPath;
 
-    //private void Start()
-    //{
-    //    Collider[] hits = Physics.OverlapBox(playerObj.transform.position, new Vector3(10f, 10f, 10f), Quaternion.identity, groundLayer);
-    //    foreach (Collider c in hits) {
-    //        PathCreator newPath = c.gameObject.GetComponentInChildren<PathCreator>();
-    //        if (newPath != null && !newPath.Equals(pathCreator) && !newPath.Equals(oldPath))
-    //        {
-    //            Debug.Log("Bboooopp");
-    //            oldPath = pathCreator;
-    //            pathCreator = newPath;
-    //            distTravelled = 0f;
-    //        }
-    //    }
-    //}
+    private void Start()
+    {
+        speed = startSpeed;
+    }
     private void Update()
     {
         //pathCreator = currentGround.GetComponentInChildren<PathCreator>();
         
+        speed += Time.deltaTime * acceleration;
+
         //Allow Player to rotate
         if (Input.GetKeyDown(KeyCode.A))
         {

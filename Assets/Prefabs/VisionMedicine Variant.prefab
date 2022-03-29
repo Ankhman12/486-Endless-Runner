@@ -53,8 +53,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1762159020392427978, guid: cbbb97bc70b0f5744812b459107dbd60, type: 3}
       propertyPath: m_Name
-      value: VisionMedicine
+      value: VisionMedicine Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2520455024680388954, guid: cbbb97bc70b0f5744812b459107dbd60, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f22b8d3fc0195ae4585a71f1ddabfbba, type: 2}
+    - target: {fileID: 2520455024680388954, guid: cbbb97bc70b0f5744812b459107dbd60, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: aec9adff5c1a9f3408fa6fd768c5da50, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbbb97bc70b0f5744812b459107dbd60, type: 3}
 --- !u!1 &6897772790279824650 stripped
