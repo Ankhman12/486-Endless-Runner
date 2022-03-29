@@ -180,6 +180,9 @@ public class GameManager : MonoBehaviour
                 player.GetComponent<PlayerMovement>().fizzleOut.Play();
                 player.GetComponent<PlayerMovement>().ball.SetActive(false);
                 player.GetComponent<PlayerMovement>().energy.SetActive(false);
+                RemoveSymptom(Symptom.Vision);
+                RemoveSymptom(Symptom.Tremors);
+                cameraShake.enabled = false;
                 //End Game
                 StartCoroutine(StopGame());
                 break;
@@ -214,6 +217,7 @@ public class GameManager : MonoBehaviour
     IEnumerator StopGame()
     {
         //Might need to make this a coroutine and do it after a certain amt of time if we want a death visual
+        
         yield return new WaitForSeconds(.5f);
         
         Time.timeScale = 0;

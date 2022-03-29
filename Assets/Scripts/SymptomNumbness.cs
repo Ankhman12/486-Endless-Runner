@@ -29,7 +29,7 @@ public class SymptomNumbness : MonoBehaviour
 
     IEnumerator fadeToBlack()
     {
-        float alpha = 0.00025f;
+        float alpha = 0.00075f;
         while (postProcessorVolume.weight < finalVolumeWeight) 
         {
             // Increase the weight of the post processor volume
