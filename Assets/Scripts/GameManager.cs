@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject playerBody;
     [SerializeField] private CameraShake cameraShake;
+    [SerializeField] private SymptomNumbness symptomNumbness;
 
     [Header("UI Objects")]
     [SerializeField] private TextMeshProUGUI distanceAmtText;
@@ -94,7 +95,7 @@ public class GameManager : MonoBehaviour
                     cameraShake.StartShaking();
                     break;
                 case Symptom.Vision:
-                    //TODO add starter for vision function here
+                    symptomNumbness.StartNumbness();
                     break;
                 default:
                     break;
@@ -113,7 +114,7 @@ public class GameManager : MonoBehaviour
                     cameraShake.StopShaking();
                     break;
                 case Symptom.Vision:
-                    //TODO add stopper for vision function here
+                    symptomNumbness.StopNumbness();
                     break;
                 default:
                     break;
@@ -121,7 +122,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void DamagePlayer()
+    public void AddRandomSymptom() 
+    {
+        // Select a random symptom
+        Symptom randomSymptom = (Symptom)Random.Range(0, 2);
+        Debug.Log("Adding random symptom: " + randomSymptom);
+        // Add it to the list of active symptoms
+        AddSymptom(randomSymptom);
+    }
+
+    public void DamagePlayer()
     {
         //Subtract life
         playerLives--;
