@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] AudioSource levelMusic;
+    public AudioSource levelMusic;
 
-    [SerializeField] AudioSource ambientElectricalSound;
+    public AudioSource ambientElectricalSound;
 
-    [SerializeField] AudioSource jumpSound;
+    public AudioSource jumpSound;
 
-    [SerializeField] AudioSource hitSound;
+    public AudioSource hitSound;
+
+    public AudioSource pickupSound;
+
+    public AudioSource symptomSound;
+
+    public AudioSource deathSound;
 
     //Singleton Stuff
     private static SoundManager _instance;
@@ -21,8 +27,16 @@ public class SoundManager : MonoBehaviour
         if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
-        } else {
+        }
+        else
+        {
             _instance = this;
         }
     }
+
+    public void PlaySound(AudioSource audio)
+    {
+        audio.Play();
+    }
+
 }
