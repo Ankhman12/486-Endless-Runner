@@ -110,7 +110,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void DamagePlayer()
+    public void AddRandomSymptom() 
+    {
+        // Select a random symptom
+        Symptom randomSymptom = (Symptom)Random.Range(0, 2);
+        Debug.Log("Adding random symptom: " + randomSymptom);
+        // Add it to the list of active symptoms
+        AddSymptom(randomSymptom);
+    }
+
+    public void DamagePlayer()
     {
         //Subtract life
         playerLives--;

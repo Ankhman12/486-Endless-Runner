@@ -21,17 +21,22 @@ public class SymptomNumbness : MonoBehaviour
     {
         postProcessorVolume = postProcessor.GetComponent<Volume>();
         blackScreenImage = blackScreen.GetComponent<Image>();
+        postProcessorVolume.weight = initialVolumeWeight;
+        blackScreenImage.color = new Color(0, 0, 0, initialOpacity);
         resetShading();
+        fadeCoroutine = null;
     }
 
     IEnumerator fadeToBlack()
     {
-        for (float alpha = initialVolumeWeight; alpha < finalVolumeWeight; alpha += 0.00025f)
+        float alpha = 0.00025f;
+        while (postProcessorVolume.weight < finalVolumeWeight) 
         {
             // Increase the weight of the post processor volume
-            postProcessorVolume.weight = alpha;
+            postProcessorVolume.weight += alpha;
             // Increase the alpha of the black screen
-            blackScreenImage.color = new Color(0, 0, 0, alpha);
+            blackScreenImage.color = new Color(0, 0, 0, blackScreenImage.color.a + alpha);
+            // Wait a frame
             yield return null;
         }
     }
@@ -43,11 +48,18 @@ public class SymptomNumbness : MonoBehaviour
     }
 
     public void StartNumbness() {
-        fadeCoroutine = StartCoroutine(fadeToBlack());
+        if (fadeCoroutine == null)
+        {
+            fadeCoroutine = StartCoroutine(fadeToBlack());
+        }
     }
 
     public void StopNumbness() {
-        StopCoroutine(fadeCoroutine);
-        resetShading();
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine);
+            fadeCoroutine = null;
+            resetShading();
+        }
     }
 }
