@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     Vector3 gravity;
     [SerializeField] bool isHoldingJump;
     [SerializeField] float jumpTimer = 0f;
+    private float betweenJumpTimer = 0f;
 
     public GameObject ball;
     public GameObject energy;
@@ -71,13 +72,15 @@ public class PlayerMovement : MonoBehaviour
 
             //Allow Player to jump
             jumpTimer += Time.deltaTime;
-            if (grounded && Input.GetButtonDown("Jump"))
+            betweenJumpTimer += Time.deltaTime;
+            if (grounded && Input.GetButton("Jump") && betweenJumpTimer > .2f)
             {
                 isHoldingJump = true;
                 jumpTimer = 0f;
+                betweenJumpTimer = 0f;
                 SoundManager.Instance.PlaySound(SoundManager.Instance.jumpSound);
             }
-            if (Input.GetButtonUp("Jump") || jumpTimer >= maxJumpTime)
+            if (!Input.GetButton("Jump") || jumpTimer >= maxJumpTime)
             {
                 jumpTimer = 0f;
                 isHoldingJump = false;
@@ -103,9 +106,9 @@ public class PlayerMovement : MonoBehaviour
                 //Attract the rigidbody to the ground
                 gravity = new Vector3(rb.transform.position.x - pathCreator.path.GetPointAtDistance(distTravelled, end).x, rb.transform.position.y - pathCreator.path.GetPointAtDistance(distTravelled, end).y, 0f).normalized;
                 gravity *= gravForce;
-                if (rb.transform.localPosition.y >= restPos.localPosition.y)
+                if (rb.transform.position.y != restPos.position.y)
                 {
-                    Debug.Log("RB: " + rb.transform.localPosition.y + " | REST: " + restPos.localPosition.y);
+                    Debug.Log("RB: " + rb.transform.position.y + " | REST: " + restPos.position.y);
                     Debug.Log(gravity);
                     rb.AddForce(gravity);
                 }

@@ -16,6 +16,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private PlayerMovement player;
 
     private Vector3 lastEndPosition;
+    private Queue<GameObject> levelParts = new Queue<GameObject>();
 
     private void Awake()
     {
@@ -34,12 +35,14 @@ public class LevelGenerator : MonoBehaviour
     {
         if (Vector3.Distance(player.transform.position, lastEndPosition) < MIN_PLAYER_DIST) {
             SpawnLevelPart();
+            Destroy(levelParts.Dequeue());
         }
     }
 
     private void SpawnLevelPart() {
         Transform lastLevelPartTransform = SpawnLevelPart(lastEndPosition);
         lastEndPosition = lastLevelPartTransform.Find("EndPosition").position;
+        levelParts.Enqueue(lastLevelPartTransform.gameObject);
     }
 
     private Transform SpawnLevelPart(Vector3 spawnPos)
