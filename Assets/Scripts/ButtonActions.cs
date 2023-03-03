@@ -26,7 +26,7 @@ public class ButtonActions : MonoBehaviour
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;
 #else
-        Application.Quit(exitCode);
+        Application.Quit();
 #endif
     }
 

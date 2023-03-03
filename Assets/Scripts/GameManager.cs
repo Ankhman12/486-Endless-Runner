@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         //Using time scale right now, eventually should use GameManager.Instance.gameRunning in player movement script
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
 
         //Ensure instance is set at the very beginning of the scene
         _instance = this;
@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     {
         //Initialize fields
         activeSymptoms = new List<Symptom>();
+        playerImmune = true;
 
         //Initialize UI
         livesAmtText.text = playerLives.ToString();
