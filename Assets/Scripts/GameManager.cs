@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     /** Bool to tell if game is currently running - false to start because of menu */
     public bool gameRunning;
     public float immunityTime;
-    private float immunityTimer;
+    private float immunityTimer = 0;
     private bool playerImmune;
 
     [Header("Object References")]

@@ -339,6 +339,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 822979872}
     - target: {fileID: 4719954416670695826, guid: 68072eac4a88bee488dc02e2baf58936, type: 3}
+      propertyPath: playerLives
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4719954416670695826, guid: 68072eac4a88bee488dc02e2baf58936, type: 3}
       propertyPath: symptomNumbness
       value: 
       objectReference: {fileID: 4507418054383960389}
