@@ -106,16 +106,18 @@ public class PlayerMovement : MonoBehaviour
                 //Attract the rigidbody to the ground
                 gravity = new Vector3(rb.transform.position.x - pathCreator.path.GetPointAtDistance(distTravelled, end).x, rb.transform.position.y - pathCreator.path.GetPointAtDistance(distTravelled, end).y, 0f).normalized;
                 gravity *= gravForce;
-                if (rb.transform.position.y != restPos.position.y)
+                Debug.Log("RB: " + rb.transform.position.y + " | REST: " + restPos.position.y);
+                Debug.Log(gravity);
+                rb.AddForce(gravity);
+                //Debug.Log((rb.transform.position - this.transform.position).magnitude);
+                if ((rb.transform.position - this.transform.position).magnitude < .45)
                 {
-                    Debug.Log("RB: " + rb.transform.position.y + " | REST: " + restPos.position.y);
-                    Debug.Log(gravity);
-                    rb.AddForce(gravity);
+                    rb.AddForce((restPos.position - rb.transform.position) * 100);
                 }
             }
             else
             {
-                Collider[] hits = Physics.OverlapSphere(playerObj.transform.position, 3f, groundLayer);
+                Collider[] hits = Physics.OverlapSphere(playerObj.transform.position, 15f, groundLayer);
                 foreach (Collider c in hits)
                 {
                     PathCreator newPath = c.gameObject.GetComponentInChildren<PathCreator>();
